@@ -16,11 +16,10 @@ k_means = kmeans.KMeans(data=data, n_clusters=3)
 #    plt.scatter(cluster.Centre[0], cluster.Centre[1], c='k', marker='*', linewidths=4)
 #plt.show()
 
-k_means.fit(n_inter=100)
-plt.scatter(k_means.Clusters[0].Points[:,0], k_means.Clusters[0].Points[:,1], c='b')
-plt.scatter(k_means.Clusters[1].Points[:,0], k_means.Clusters[1].Points[:,1], c='g')
-plt.scatter(k_means.Clusters[2].Points[:,0], k_means.Clusters[2].Points[:,1], c='y')
+k_means.fit()
+plt.scatter(data[:,0], data[:,1], c=k_means.Labels)
 for cluster in k_means.Clusters:
     plt.scatter(cluster.Centre[0], cluster.Centre[1], c='k', marker='*', linewidths=4)
+k_means.show_progress()
 plt.show()
 
