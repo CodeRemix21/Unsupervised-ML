@@ -12,14 +12,15 @@ k_means = kmeans.KMeans(data=data, n_clusters=3)
 
 # plot data and randomly generated centroids
 #plt.scatter(data[:,0], data[:,1])
-#for cluster in k_means.Clusters:
-#    plt.scatter(cluster.Centre[0], cluster.Centre[1], c='k', marker='*', linewidths=4)
+#for cluster in k_means.clusters:
+#    plt.scatter(cluster.centre[0], cluster.centre[1], c='k', marker='*', linewidths=4)
 #plt.show()
 
 k_means.fit()
-plt.scatter(data[:,0], data[:,1], c=k_means.Labels)
-for cluster in k_means.Clusters:
-    plt.scatter(cluster.Centre[0], cluster.Centre[1], c='k', marker='*', linewidths=4)
+plt.scatter(data[:,0], data[:,1], c=k_means.labels)
+for cluster in k_means.clusters:
+    plt.scatter(cluster.centre[0], cluster.centre[1], c='k', marker='*', linewidths=4)
 k_means.show_progress()
+k_means.show_cost_function()
 plt.show()
 

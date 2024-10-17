@@ -8,7 +8,7 @@ class Cluster:
     Class to perform cluster behaviour
 
     Attributes:
-        - centre:   tuple    - represents a centre of the cluster (X,Y) coordinates
+        - centre:   tuple      - represents a centre of the cluster (X,Y) coordinates
         - points:   np.ndarray - represents set of points that belongs to the cluster
         - distance: np.ndarray - represents set of distances to each point in dataset
 
@@ -54,6 +54,7 @@ class KMeans:
             - steps:      np.ndArray - represents matrix (size data_points x iterations) of indices to show progress in each iteration
             - data:       np.ndArray - input argument which represents dataset
             - clusters:   np.ndArray - set of clusters
+            - cost:       np.ndArray - value of cost function in each iteration
 
         Methods:
             - check_clusters_points - check if clusters have at least one point
@@ -71,6 +72,7 @@ class KMeans:
         self.steps = np.zeros((data.shape[0], 1), dtype=int)
         self.data = data
         self.clusters = [Cluster() for _ in range(n_clusters)]
+        self.cost = np.array([])
 
     def check_clusters_points(self):
         return len(set(self.indices)) != len(self.clusters)
@@ -106,6 +108,17 @@ class KMeans:
                 self.oldIndices = np.copy(self.indices)
                 self.indices = np.argmin(self.distances, axis=1)
                 self.steps = np.hstack((self.steps, np.array(self.indices).reshape((500, 1))))
+                self.cost_function()
                 if np.all(self.indices == self.oldIndices):
                     break
         self.plt_colors()
+
+    def cost_function(self):
+        j = 0
+        for index, distance in enumerate(self.distances):
+            j += distance[self.indices[index]]
+        self.cost = np.append(self.cost, [j])
+
+    def show_cost_function(self):
+        plt.figure()
+        plt.plot(range(self.cost.shape[0]), self.cost/np.max(self.cost))
